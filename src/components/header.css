@@ -1,0 +1,51 @@
+header {
+	height: 64px;
+	width: 100%;
+	padding: 0 24px;
+	background-color: #075985;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+header .brand {
+	margin-right: auto;
+	font-weight: 700;
+}
+
+label.location-label {
+	position: relative;
+}
+
+label.location-label .icon {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top: 50%;
+	right: 12px;
+	transform: translateY(-50%);
+	color: rgba(255, 255, 255, 0.55);
+}
+
+.icon svg {
+	height: 100%;
+	width: 100%;
+}
+
+input[type='search'] {
+	appearance: none;
+	outline: none;
+	border: none;
+	border-radius: 8px;
+	padding: 8px 12px;
+	color: inherit;
+	background-color: rgba(0, 0, 0, 0.15);
+	box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.05),
+		inset -1px -1px 10px rgba(0, 0, 0, 0.05);
+}
+
+input[type='search']::placeholder {
+	color: rgba(255, 255, 255, 0.55);
+}
