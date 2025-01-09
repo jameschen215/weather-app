@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
 :root {
 	--black: #18181b;
@@ -9,9 +9,7 @@ html {
 }
 
 body {
-	font-family: 'Nunito', serif;
-	font-optical-sizing: auto;
-	font-size: 1.6rem;
+	font-family: 'Poppins', serif;
 	font-weight: 400;
 	font-style: normal;
 
@@ -22,16 +20,18 @@ body {
 
 .container {
 	height: 100%;
+	width: 100%;
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
-
 	background-image: linear-gradient(to bottom, #0369a1, #60a5fa);
 }
 
 main {
 	width: 100%;
+	/* max-width: 1280px; */
 	flex: 1;
 
 	display: flex;
@@ -40,10 +40,11 @@ main {
 }
 
 footer {
-	line-height: 36px;
-	height: 36px;
+	line-height: 48px;
+	height: 48px;
 	width: 100%;
 	text-align: center;
+	margin-top: 20px;
 }
 
 footer small {
@@ -52,6 +53,7 @@ footer small {
 
 footer a {
 	text-decoration: none;
-	font-weight: 700;
+	font-weight: 600;
+	font-style: italic;
 	color: inherit;
 }

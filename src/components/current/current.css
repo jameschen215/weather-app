@@ -1,6 +1,6 @@
 .current {
 	width: 100%;
-	flex: 2;
+	flex: 7;
 
 	display: flex;
 	flex-direction: column;
@@ -17,6 +17,7 @@
 	gap: 20px;
 
 	font-size: 1.8rem;
+	font-weight: 500;
 }
 
 .current-row.location {
@@ -27,10 +28,6 @@
 .current-row.location .location-icon {
 	width: 18px;
 	height: 18px;
-}
-
-.current-row .main-info {
-	margin-bottom: -20px;
 }
 
 .current-row.main-info .current-icon {
@@ -50,7 +47,9 @@
 
 .current .current-row.desc {
 	font-size: 3.6rem;
-	margin-bottom: 36px;
+	font-weight: 700;
+	margin-bottom: 4px;
+	margin-top: -20px;
 }
 
 /* Style unit toggle buttons */
@@ -71,6 +70,7 @@
 	justify-content: center;
 
 	font-size: 2.4rem;
+	font-weight: 300;
 	color: rgba(255, 255, 255, 0.55);
 	text-align: center;
 	cursor: pointer;
@@ -85,6 +85,6 @@
 input#celsius:checked + label,
 input#fahrenheit:checked + label {
 	font-size: 4rem;
-	/* font-weight: 400; */
+	font-weight: 300;
 	color: var(--white);
 }

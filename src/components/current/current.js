@@ -21,7 +21,7 @@ export function current() {
       </div>
 
       <div class="unit">
-        <input type="radio" name="unit-toggle" id="celsius" />
+        <input type="radio" name="unit-toggle" id="celsius" checked />
         <label for="celsius">C</label>
         <input type="radio" name="unit-toggle" id="fahrenheit" />
         <label for="fahrenheit">F</label>

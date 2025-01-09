@@ -1,17 +1,107 @@
 .daily {
-	flex: 1;
+	flex: 3;
 	width: 100%;
+	padding: 0 20px;
+
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.daily > button {
+	appearance: none;
+	border: none;
+	outline: none;
+	border-radius: 4px;
+	width: 36px;
+	height: 56px;
+	background-color: transparent;
+	cursor: pointer;
+	color: rgba(255, 255, 255, 0.55);
+
+	transition: all 120ms ease-in-out;
+}
+
+.daily > button:hover {
+	color: var(--white);
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.daily > button svg {
+	width: 100%;
+	height: auto;
+	stroke-width: 1px;
 }
 
 .card-container {
 	height: 100%;
-	border: 1px solid #000;
+	width: 100%;
+	/* border: 1px solid #000; */
 
 	display: flex;
-	flex-wrap: nowrap;
+	overflow-x: auto;
+}
+
+.card-container::-webkit-scrollbar {
+	display: none;
 }
 
 .daily-card {
-	flex: 0 0 200px;
-	border: 1px solid green;
+	flex: 1 0 auto;
+	width: calc(100% / 7);
+	background-color: transparent;
+	border: none;
+	border-radius: 6px;
+	outline: none;
+	color: inherit;
+	cursor: pointer;
+
+	font-size: 2rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 10px;
+
+	padding: 20px;
+}
+
+.daily-card:hover {
+	background-color: rgba(255, 255, 255, 0.075);
+}
+
+.card-row {
+	display: flex;
+	align-items: stretch;
+	gap: 10px;
+}
+
+.card-date {
+	font-weight: 500;
+}
+
+.card-date.today {
+	font-weight: 800;
+	font-style: italic;
+}
+
+.card-icon {
+	width: 48px;
+	height: 48px;
+}
+
+.card-desc {
+	font-size: 1.8rem;
+	margin-top: -10px;
+}
+.card-temp {
+	align-items: stretch;
+}
+.card-temp-max {
+	font-size: 3rem;
+}
+.card-temp-min {
+	margin-top: 10px;
+	font-size: 2rem;
+	color: rgba(255, 255, 255, 0.75);
 }
