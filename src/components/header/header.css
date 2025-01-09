@@ -1,5 +1,5 @@
 header {
-	height: 64px;
+	height: 56px;
 	width: 100%;
 	padding: 0 24px;
 	background-color: #075985;
@@ -7,29 +7,42 @@ header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 20px;
+	gap: 30px;
 }
 
 header .brand {
 	margin-right: auto;
+	font-size: 1.8rem;
 	font-weight: 700;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
-label.location-label {
+header .brand .logo {
+	width: 30px;
+	height: 30px;
+}
+
+label.search {
 	position: relative;
 }
 
-label.location-label .icon {
+input[type='search'] {
+	min-width: 240px;
+}
+
+label.search .icon {
 	position: absolute;
-	width: 20px;
-	height: 20px;
+	width: 18px;
+	height: 18px;
 	top: 50%;
 	right: 12px;
 	transform: translateY(-50%);
 	color: rgba(255, 255, 255, 0.55);
 }
 
-.icon svg {
+svg {
 	height: 100%;
 	width: 100%;
 }
@@ -42,10 +55,10 @@ input[type='search'] {
 	padding: 8px 12px;
 	color: inherit;
 	background-color: rgba(0, 0, 0, 0.15);
-	box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.05),
-		inset -1px -1px 10px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.1),
+		inset -1px -1px 10px rgba(0, 0, 0, 0.1);
 }
 
 input[type='search']::placeholder {
-	color: rgba(255, 255, 255, 0.55);
+	color: rgba(255, 255, 255, 0.68);
 }

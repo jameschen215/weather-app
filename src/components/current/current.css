@@ -1,0 +1,90 @@
+.current {
+	width: 100%;
+	flex: 2;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+
+	/* background-color: lightblue; */
+}
+
+.current-row {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+
+	font-size: 1.8rem;
+}
+
+.current-row.location {
+	gap: 4px;
+	font-size: 2.4rem;
+}
+
+.current-row.location .location-icon {
+	width: 18px;
+	height: 18px;
+}
+
+.current-row .main-info {
+	margin-bottom: -20px;
+}
+
+.current-row.main-info .current-icon {
+	width: 80px;
+	height: 80px;
+}
+
+.current .current-row img {
+	width: 100%;
+	height: auto;
+}
+
+.current .current-temp {
+	font-size: 8rem;
+	font-weight: 200;
+}
+
+.current .current-row.desc {
+	font-size: 3.6rem;
+	margin-bottom: 36px;
+}
+
+/* Style unit toggle buttons */
+
+.current-row .unit {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	/* justify-content: center; */
+	/* align-items: center; */
+}
+
+.current-row label {
+	width: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 2.4rem;
+	color: rgba(255, 255, 255, 0.55);
+	text-align: center;
+	cursor: pointer;
+
+	transition: all 120ms ease-in-out;
+}
+
+.current-row .unit input {
+	display: none;
+}
+
+input#celsius:checked + label,
+input#fahrenheit:checked + label {
+	font-size: 4rem;
+	/* font-weight: 400; */
+	color: var(--white);
+}

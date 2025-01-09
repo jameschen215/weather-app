@@ -1,7 +1,9 @@
 import './styles/reset.css';
 import './styles/main.css';
 
-import { header } from './components/header';
+import { header } from './components/header/header';
+import { current } from './components/current/current';
+import { daily } from './components/daily/daily';
 
 const apiUrl =
 	'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/hefei?unitGroup=metric&key=44WG9762H63773SCNAM32AVZT&contentType=json';
@@ -29,8 +31,8 @@ const dailyDom = document.querySelector('#daily');
 
 function updateDisplay() {
 	headerDom.innerHTML = header();
-	current.innerHTML = 'Hey, I am the current.';
-	daily.innerHTML = 'Hey, I am the daily.';
+	currentDom.innerHTML = current();
+	dailyDom.innerHTML = daily();
 }
 
 updateDisplay();
