@@ -5,16 +5,21 @@ import { header } from './components/header/header';
 import { current } from './components/current/current';
 import { daily } from './components/daily/daily';
 import { spinner } from './components/spinner/spinner';
-import { getWeatherInfo } from './utils/utils';
+import { fetchWeatherInfo } from './utils/utils';
 
 const headerDom = document.querySelector('#header');
 const currentDom = document.querySelector('#current');
 const dailyDom = document.querySelector('#daily');
 
 let city = 'Hefei';
+let currentIndex = 0;
 let unit = localStorage.getItem('unit')
 	? localStorage.getItem('unit')
 	: 'metric';
+
+const data = JSON.parse(localStorage.getItem('data'));
+
+console.log({ data });
 
 function showSpinner() {
 	currentDom.innerHTML = spinner();
@@ -38,9 +43,6 @@ function updateDailyButtons() {
 
 	const cardWidth = getCardWidth();
 	const maxScrollLeft = cardContainer.scrollWidth - cardContainer.clientWidth;
-
-	console.log('card width: ', cardWidth);
-	console.log('left width: ', cardContainer.scrollLeft);
 
 	if (cardContainer.scrollLeft < cardWidth) {
 		prev.disabled = true;
@@ -68,7 +70,6 @@ function handleSlideButtonClick() {
 			behavior: 'smooth',
 		});
 
-		console.log('after prev', cardContainer.scrollLeft);
 		updateDailyButtons();
 	});
 
@@ -91,10 +92,11 @@ function handleNotButtonScrolling() {
 }
 
 function handleUnitToggle() {
-	document.querySelector('form').addEventListener('change', (event) => {
+	document.querySelector('form').addEventListener('change', async (event) => {
 		if (event.target.name === 'unit-toggle') {
 			unit = event.target.value;
-			getWeatherInfo(city, unit);
+
+			await getWeatherDataAndUpdateDisplay();
 
 			// Save user's unit preference
 			localStorage.setItem('unit', unit);
@@ -110,9 +112,13 @@ function handleCardClick() {
 	}
 
 	document.querySelectorAll('.daily-card').forEach((card) => {
-		card.addEventListener('click', (event) => {
+		card.addEventListener('click', async (event) => {
 			unselectAllCards();
 			card.classList.add('selected');
+			currentIndex = parseInt(event.currentTarget.dataset.index);
+			console.log(currentIndex);
+
+			updateDisplay(data);
 		});
 	});
 }
@@ -125,23 +131,16 @@ async function handleSearchInput() {
 
 			if (event.key === 'Enter' && location.length > 1) {
 				city = location;
-				try {
-					showSpinner();
-					const data = await getWeatherInfo(city, unit);
-					updateDisplay(data);
-				} catch (error) {
-					console.log(error);
-				} finally {
-					event.target.value = '';
-				}
+				await getWeatherDataAndUpdateDisplay();
 			}
 		});
 }
 
-async function showInitialWeatherData() {
+async function getWeatherDataAndUpdateDisplay() {
 	try {
 		showSpinner();
-		const data = await getWeatherInfo(city, unit);
+		await fetchWeatherInfo(city, unit);
+		const data = JSON.parse(localStorage.getItem('data'));
 		updateDisplay(data);
 	} catch (error) {
 		console.log(error);
@@ -149,7 +148,7 @@ async function showInitialWeatherData() {
 }
 
 function updateDisplay(data) {
-	currentDom.innerHTML = current(data, unit);
+	currentDom.innerHTML = current(data, currentIndex, unit);
 	dailyDom.innerHTML = daily(data);
 
 	handleUnitToggle();
@@ -159,8 +158,10 @@ function updateDisplay(data) {
 	handleCardClick();
 }
 
-window.onload = () => {
+window.onload = async () => {
+	fetchWeatherInfo(city, unit);
 	headerDom.innerHTML = header();
-	showInitialWeatherData();
+
+	await getWeatherDataAndUpdateDisplay();
 	handleSearchInput();
 };

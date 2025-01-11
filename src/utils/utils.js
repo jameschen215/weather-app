@@ -24,7 +24,7 @@ export function isToday(dateString) {
 	);
 }
 
-export async function getWeatherInfo(city, unit) {
+export async function fetchWeatherInfo(city, unit) {
 	const apiEndpoint = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=${unit}&key=44WG9762H63773SCNAM32AVZT&contentType=json`;
 
 	try {
@@ -34,9 +34,12 @@ export async function getWeatherInfo(city, unit) {
 			throw new Error('Network response was not okay.');
 		}
 
+		// Save the data to localStorage
 		const data = await response.json();
-		return data;
+		localStorage.setItem('data', JSON.stringify(data));
+
+		console.log('Data saved to localStorage:', data);
 	} catch (error) {
-		console.error(error);
+		console.error('Error fetching data:', error);
 	}
 }

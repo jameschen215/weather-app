@@ -2,23 +2,40 @@ import './current.css';
 import { capitalizeFirstLetter } from '../../utils/utils';
 import { weatherIcons } from '../../utils/images';
 
-export function current(data, unit) {
+export function current(data, index, unit) {
 	if (data === undefined) return '';
 
 	const city = capitalizeFirstLetter(data.address);
-	const weatherIcon = weatherIcons[data.currentConditions.icon];
-	const tempMax = Math.round(data.days[0].tempmax);
-	const tempMin = Math.round(data.days[0].tempmin);
 	const {
+		icon,
 		temp,
+		tempmax,
+		tempmin,
+		feelslike,
 		conditions: desc,
-		feelslike: feelsLike,
 		windspeed: windSpeed,
 		visibility,
 		humidity,
 		dew,
 		pressure,
-	} = data.currentConditions;
+	} = data.days[index];
+
+	const weatherIcon = weatherIcons[icon];
+	const tempMax = Math.round(tempmax);
+	const tempMin = Math.round(tempmin);
+	const feelsLike = Math.round(feelslike);
+	const dewPoint = Math.round(dew);
+
+	// const {
+	// 	temp,
+	// 	conditions: desc,
+	// 	feelslike: feelsLike,
+	// 	windspeed: windSpeed,
+	// 	visibility,
+	// 	humidity,
+	// 	dew,
+	// 	pressure,
+	// } = data.currentConditions;
 
 	return `
     <div class="current-row location">
@@ -72,7 +89,7 @@ export function current(data, unit) {
       </div>
       <div class="temp-feel-like">
         <span>Feels Like</span>
-        <span>${Math.round(feelsLike)}&deg;</span>
+        <span>${feelsLike}&deg;</span>
       </div>
     </div>
 
@@ -97,7 +114,7 @@ export function current(data, unit) {
     <div class="current-row">
       <div class="dew">
         <span>Dew Point</span>
-        <span>${Math.round(dew)}&deg;</span>
+        <span>${dewPoint}&deg;</span>
       </div>
       <div class="pressure">
         <span>Pressure</span> 

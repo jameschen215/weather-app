@@ -10,7 +10,7 @@ export function daily(data) {
 		</button>
 
 		<div id="card-container" class="card-container">
-			${data.days.map((day) => dailyCard(day)).join('')}
+			${data.days.map((day, index) => dailyCard(day, index)).join('')}
 		</div>
 
 		<button id="next">

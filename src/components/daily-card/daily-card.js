@@ -2,7 +2,7 @@ import './daily-card.css';
 import { format, isToday } from 'date-fns';
 import { weatherIcons } from '../../utils/images';
 
-export function dailyCard(day) {
+export function dailyCard(day, index) {
 	const {
 		datetime,
 		icon,
@@ -10,6 +10,7 @@ export function dailyCard(day) {
 		tempmin: tempMin,
 		conditions: desc,
 	} = day;
+
 	const date = new Date(datetime);
 	const weatherIcon = weatherIcons[icon];
 
@@ -21,7 +22,7 @@ export function dailyCard(day) {
       `;
 
 	return `
-    <button class="daily-card">
+    <button class="daily-card" data-index="${index}">
       <div class="card-row card-date">
         ${cardDateContent}
       </div>
