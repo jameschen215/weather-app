@@ -1,0 +1,64 @@
+.daily-card {
+	flex: 1 0 auto;
+	width: calc(100% / 7);
+	background-color: transparent;
+	border: none;
+	border-radius: 8px;
+	outline: none;
+	color: inherit;
+	cursor: pointer;
+
+	font-size: 2rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 6px;
+
+	padding: 20px;
+}
+
+.daily-card:hover,
+.daily-card.selected {
+	background-color: rgba(255, 255, 255, 0.075);
+}
+
+.card-row {
+	display: flex;
+	align-items: stretch;
+	gap: 10px;
+}
+
+.card-date {
+	font-weight: 500;
+}
+
+.card-date.today {
+	font-weight: 800;
+	font-style: italic;
+}
+
+.card-icon {
+	width: 48px;
+	height: 48px;
+}
+
+.card-desc {
+	font-size: 1.6rem;
+	text-align: start;
+	align-self: flex-start;
+	/* margin-top: -10px; */
+}
+.card-temp {
+	align-items: stretch;
+}
+.card-temp-max {
+	font-weight: 300;
+	font-size: 2.4rem;
+}
+
+.card-temp-min {
+	margin-top: 9px;
+	font-size: 1.6rem;
+	color: rgba(255, 255, 255, 0.75);
+}

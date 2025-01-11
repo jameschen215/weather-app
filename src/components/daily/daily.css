@@ -33,6 +33,15 @@
 	stroke-width: 1px;
 }
 
+.daily > button:disabled {
+	cursor: default;
+}
+
+.daily > button:disabled:hover {
+	color: rgba(255, 255, 255, 0.55);
+	background-color: transparent;
+}
+
 .card-container {
 	height: 100%;
 	width: 100%;
@@ -44,64 +53,4 @@
 
 .card-container::-webkit-scrollbar {
 	display: none;
-}
-
-.daily-card {
-	flex: 1 0 auto;
-	width: calc(100% / 7);
-	background-color: transparent;
-	border: none;
-	border-radius: 6px;
-	outline: none;
-	color: inherit;
-	cursor: pointer;
-
-	font-size: 2rem;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	gap: 10px;
-
-	padding: 20px;
-}
-
-.daily-card:hover {
-	background-color: rgba(255, 255, 255, 0.075);
-}
-
-.card-row {
-	display: flex;
-	align-items: stretch;
-	gap: 10px;
-}
-
-.card-date {
-	font-weight: 500;
-}
-
-.card-date.today {
-	font-weight: 800;
-	font-style: italic;
-}
-
-.card-icon {
-	width: 48px;
-	height: 48px;
-}
-
-.card-desc {
-	font-size: 1.8rem;
-	margin-top: -10px;
-}
-.card-temp {
-	align-items: stretch;
-}
-.card-temp-max {
-	font-size: 3rem;
-}
-.card-temp-min {
-	margin-top: 10px;
-	font-size: 2rem;
-	color: rgba(255, 255, 255, 0.75);
 }

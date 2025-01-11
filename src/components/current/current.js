@@ -1,51 +1,108 @@
 import './current.css';
-import cloudyIcon from '../../images/cloudy.png';
-import sunnyIcon from '../../images/sunny.png';
+import { capitalizeFirstLetter } from '../../utils/utils';
+import { weatherIcons } from '../../utils/images';
 
-export function current() {
+export function current(data, unit) {
+	if (data === undefined) return '';
+
+	const city = capitalizeFirstLetter(data.address);
+	const weatherIcon = weatherIcons[data.currentConditions.icon];
+	const tempMax = Math.round(data.days[0].tempmax);
+	const tempMin = Math.round(data.days[0].tempmin);
+	const {
+		temp,
+		conditions: desc,
+		feelslike: feelsLike,
+		windspeed: windSpeed,
+		visibility,
+		humidity,
+		dew,
+		pressure,
+	} = data.currentConditions;
+
 	return `
     <div class="current-row location">
       <div class="icon location-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
       </div>
-      <div class="city">Hefei</div>
+      <div class="city">${city}</div>
     </div>
 
     <div class="current-row main-info">
       <div class="icon current-icon">
-        <img src="${sunnyIcon}">
+        <img src="${weatherIcon}">
       </div>
 
       <div class="current-temp">
-        25&deg;
+        ${Math.round(temp)}&deg;
       </div>
 
-      <div class="unit">
-        <input type="radio" name="unit-toggle" id="celsius" checked />
+      <form class="unit">
+        <input 
+          type="radio" 
+          name="unit-toggle" 
+          id="celsius" 
+          value="metric" 
+          ${unit === 'metric' ? 'checked' : ''}
+        />
         <label for="celsius">C</label>
-        <input type="radio" name="unit-toggle" id="fahrenheit" />
+        <input 
+          type="radio" 
+          name="unit-toggle" 
+          id="fahrenheit" 
+          value="us" 
+          ${unit === 'us' ? 'checked' : ''}
+        />
         <label for="fahrenheit">F</label>
-      </div>
+      </form>
     </div>
       
     <div class="current-row desc">
-      <p>Sunny</p>
+      <p>${desc}</p>
     </div>
 
     <div class="current-row">
-      <span class="temp-max">Max 5 &deg;C</span>
-      <span class="temp-min">Min -4 &deg;C</span>
-      <span class="temp-feel-like">Feels Like 0 &deg;C</span>
+      <div class="temp-max">
+        <span>Max</span> 
+        <span>${tempMax}&deg;</span>
+      </div>
+      <div class="temp-min">
+        <span>Min</span>  
+        <span>${tempMin}&deg;</span>
+      </div>
+      <div class="temp-feel-like">
+        <span>Feels Like</span>
+        <span>${Math.round(feelsLike)}&deg;</span>
+      </div>
     </div>
 
     <div class="current-row">
-      <span class="humidity">Humidity 55%</span>
-      <span class="wind-spreed">Wind 5 km/h</span>
-      <span class="visibility">Visibility 6km</span>
+      <div class="humidity">
+        <span>Humidity</span> 
+        <span>${humidity}%</span>
+      </div>
+      <div class="wind-spreed">
+        <span>Wind</span>
+        <span>
+          ${windSpeed}${unit === 'us' ? 'mph' : 'km/h'}
+        </span>
+      </div>
+      <div class="visibility">
+        <span>Visibility</span> 
+        <span>
+          ${visibility}${unit === 'us' ? 'miles' : 'km'}
+        </span>
+      </div>
     </div>
     <div class="current-row">
-      <span class="dew">Dew Point 19 &deg;</span>
-      <span class="pressure">Pressure 1035.2</span>
+      <div class="dew">
+        <span>Dew Point</span>
+        <span>${Math.round(dew)}&deg;</span>
+      </div>
+      <div class="pressure">
+        <span>Pressure</span> 
+        <span>${pressure}mb</span>
+      </div>
     </div>
   `;
 }

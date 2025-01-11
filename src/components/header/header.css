@@ -1,7 +1,7 @@
-header {
+.header {
 	height: 56px;
 	width: 100%;
-	padding: 0 24px;
+	padding: 0 20px;
 	background-color: #075985;
 
 	display: flex;
@@ -10,7 +10,7 @@ header {
 	gap: 30px;
 }
 
-header .brand {
+.header .brand {
 	margin-right: auto;
 	font-size: 1.8rem;
 	font-weight: 700;
@@ -19,7 +19,7 @@ header .brand {
 	gap: 10px;
 }
 
-header .brand .logo {
+.header .brand .logo {
 	width: 30px;
 	height: 30px;
 }
