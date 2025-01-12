@@ -1,6 +1,6 @@
 .daily-card {
 	flex: 1 0 auto;
-	width: calc(100% / 7);
+	width: calc(100% / 3);
 	background-color: transparent;
 	border: none;
 	border-radius: 8px;
@@ -64,4 +64,31 @@
 	margin-top: 9px;
 	font-size: 1.6rem;
 	color: rgba(255, 255, 255, 0.75);
+}
+
+/* @media (max-width: 640px) {
+	.daily-card {
+		width: calc(100% / 3);
+	}
+} */
+
+@media (min-width: 641px) and (max-width: 768px) {
+	.daily-card {
+		width: calc(100% / 4);
+	}
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+	.daily-card {
+		width: calc(100% / 5);
+	}
+}
+@media (min-width: 1025px) and (max-width: 1280px) {
+	.daily-card {
+		width: calc(100% / 6);
+	}
+}
+@media (min-width: 1281px) and (max-width: 1536px) {
+	.daily-card {
+		width: calc(100% / 7);
+	}
 }

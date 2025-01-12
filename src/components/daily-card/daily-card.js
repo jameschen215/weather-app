@@ -1,15 +1,12 @@
 import './daily-card.css';
 import { format, isToday } from 'date-fns';
 import { weatherIcons } from '../../utils/images';
+import { celsiusToFahrenheit } from '../../utils/utils';
 
-export function dailyCard(day, index) {
-	const {
-		datetime,
-		icon,
-		tempmax: tempMax,
-		tempmin: tempMin,
-		conditions: desc,
-	} = day;
+export function dailyCard(day, index, unit) {
+	const { datetime, icon, tempmax, tempmin, conditions: desc } = day;
+	const tempMax = Math.round(tempmax);
+	const tempMin = Math.round(tempmin);
 
 	const date = new Date(datetime);
 	const weatherIcon = weatherIcons[icon];
@@ -34,8 +31,12 @@ export function dailyCard(day, index) {
       </div>
 
       <div class="card-row card-temp">
-        <div class="card-temp-max">${Math.round(tempMax)}&deg;</div>
-        <div class="card-temp-min">${Math.round(tempMin)}&deg;</div>
+        <div class="card-temp-max">
+          ${unit === 'metric' ? tempMax : celsiusToFahrenheit(tempMax)}&deg;
+        </div>
+        <div class="card-temp-min">
+          ${unit === 'metric' ? tempMin : celsiusToFahrenheit(tempMin)}&deg;
+        </div>
       </div>
 
       <div class="card-row card-desc">

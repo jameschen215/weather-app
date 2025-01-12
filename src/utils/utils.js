@@ -5,41 +5,29 @@ export function capitalizeFirstLetter(text) {
 		.join(' ');
 }
 
-function isValidDate(dateString) {
-	const date = new Date(dateString);
+// function isValidDate(dateString) {
+// 	const date = new Date(dateString);
 
-	return !isNaN(date.getTime());
+// 	return !isNaN(date.getTime());
+// }
+
+// export function isToday(dateString) {
+// 	if (!isValidDate(dateString)) return false;
+
+// 	const date = new Date(dateString);
+// 	const today = new Date();
+
+// 	return (
+// 		date.getDate() === today.getDate() &&
+// 		date.getMonth() === today.getMonth() &&
+// 		date.getFullYear() === today.getFullYear()
+// 	);
+// }
+
+export function celsiusToFahrenheit(temp) {
+	return Math.round(temp * (9 / 5) + 32);
 }
 
-export function isToday(dateString) {
-	if (!isValidDate(dateString)) return false;
-
-	const date = new Date(dateString);
-	const today = new Date();
-
-	return (
-		date.getDate() === today.getDate() &&
-		date.getMonth() === today.getMonth() &&
-		date.getFullYear() === today.getFullYear()
-	);
-}
-
-export async function fetchWeatherInfo(city, unit) {
-	const apiEndpoint = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=${unit}&key=44WG9762H63773SCNAM32AVZT&contentType=json`;
-
-	try {
-		const response = await fetch(apiEndpoint);
-
-		if (!response.ok) {
-			throw new Error('Network response was not okay.');
-		}
-
-		// Save the data to localStorage
-		const data = await response.json();
-		localStorage.setItem('data', JSON.stringify(data));
-
-		console.log('Data saved to localStorage:', data);
-	} catch (error) {
-		console.error('Error fetching data:', error);
-	}
+export function kilometersToMiles(km) {
+	return Math.round(km * 0.62137);
 }

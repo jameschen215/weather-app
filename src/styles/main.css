@@ -122,3 +122,7 @@ footer a {
 	font-style: italic;
 	color: inherit;
 }
+
+@media (max-width: 640px) {
+	/* … */
+}

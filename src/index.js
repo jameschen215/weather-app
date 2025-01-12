@@ -5,26 +5,24 @@ import { header } from './components/header/header';
 import { current } from './components/current/current';
 import { daily } from './components/daily/daily';
 import { spinner } from './components/spinner/spinner';
-import { fetchWeatherInfo } from './utils/utils';
+import { fetchWeatherInfo } from './utils/fetch-data';
+import { error } from './components/error/error';
+import { welcome } from './components/welcome/welcome';
 
 const headerDom = document.querySelector('#header');
 const currentDom = document.querySelector('#current');
 const dailyDom = document.querySelector('#daily');
 
-let city = 'Hefei';
+let data = null;
+let isLoading = false;
 let currentIndex = 0;
-let unit = localStorage.getItem('unit')
-	? localStorage.getItem('unit')
-	: 'metric';
-
-const data = JSON.parse(localStorage.getItem('data'));
-
-console.log({ data });
-
-function showSpinner() {
-	currentDom.innerHTML = spinner();
-	dailyDom.innerHTML = spinner();
-}
+let scrollPosition = 0;
+let city =
+	localStorage.getItem('city') !== null ? localStorage.getItem('city') : '';
+let unit =
+	localStorage.getItem('unit') !== null
+		? localStorage.getItem('unit')
+		: 'metric';
 
 function getCardWidth() {
 	// Get dynamic card width
@@ -36,7 +34,7 @@ function getCardWidth() {
 	return cardStyles.width + parseFloat(getComputedStyle(firstCard).marginLeft);
 }
 
-function updateDailyButtons() {
+function updateDailyButtonsAndScrollPosition() {
 	const cardContainer = document.querySelector('#card-container');
 	const prev = document.querySelector('#prev');
 	const next = document.querySelector('#next');
@@ -55,6 +53,13 @@ function updateDailyButtons() {
 	} else {
 		next.disabled = false;
 	}
+
+	scrollPosition = cardContainer.scrollLeft;
+}
+
+function setCardContainerScrollPosition() {
+	const cardContainer = document.querySelector('#card-container');
+	cardContainer.scrollLeft = scrollPosition;
 }
 
 function handleSlideButtonClick() {
@@ -70,7 +75,7 @@ function handleSlideButtonClick() {
 			behavior: 'smooth',
 		});
 
-		updateDailyButtons();
+		updateDailyButtonsAndScrollPosition();
 	});
 
 	next.addEventListener('click', () => {
@@ -81,25 +86,36 @@ function handleSlideButtonClick() {
 			behavior: 'smooth',
 		});
 
-		updateDailyButtons();
+		updateDailyButtonsAndScrollPosition();
 	});
 }
 
 function handleNotButtonScrolling() {
 	document
 		.querySelector('#card-container')
-		.addEventListener('scroll', updateDailyButtons);
+		.addEventListener('scroll', updateDailyButtonsAndScrollPosition);
+}
+
+function handleSearchInput() {
+	document.querySelector('#search').addEventListener('keydown', (event) => {
+		const location = event.target.value.trim();
+
+		if (event.key === 'Enter' && location.length > 1) {
+			city = location;
+			localStorage.setItem('city', city);
+
+			loadData();
+		}
+	});
 }
 
 function handleUnitToggle() {
 	document.querySelector('form').addEventListener('change', async (event) => {
 		if (event.target.name === 'unit-toggle') {
 			unit = event.target.value;
-
-			await getWeatherDataAndUpdateDisplay();
-
-			// Save user's unit preference
 			localStorage.setItem('unit', unit);
+
+			render();
 		}
 	});
 }
@@ -116,52 +132,74 @@ function handleCardClick() {
 			unselectAllCards();
 			card.classList.add('selected');
 			currentIndex = parseInt(event.currentTarget.dataset.index);
-			console.log(currentIndex);
 
-			updateDisplay(data);
+			render();
 		});
 	});
 }
 
-async function handleSearchInput() {
-	document
-		.querySelector('#search')
-		.addEventListener('keydown', async (event) => {
-			const location = event.target.value.trim();
-
-			if (event.key === 'Enter' && location.length > 1) {
-				city = location;
-				await getWeatherDataAndUpdateDisplay();
-			}
-		});
+function showSpinner() {
+	currentDom.innerHTML = spinner();
+	dailyDom.innerHTML = spinner();
+	console.log('Loading data...');
 }
 
-async function getWeatherDataAndUpdateDisplay() {
-	try {
-		showSpinner();
-		await fetchWeatherInfo(city, unit);
-		const data = JSON.parse(localStorage.getItem('data'));
-		updateDisplay(data);
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-function updateDisplay(data) {
-	currentDom.innerHTML = current(data, currentIndex, unit);
-	dailyDom.innerHTML = daily(data);
-
+function bindDynamicHandlers() {
+	setCardContainerScrollPosition();
 	handleUnitToggle();
 	handleSlideButtonClick();
-	updateDailyButtons();
+	updateDailyButtonsAndScrollPosition();
 	handleNotButtonScrolling();
 	handleCardClick();
 }
 
-window.onload = async () => {
-	fetchWeatherInfo(city, unit);
-	headerDom.innerHTML = header();
+function showData() {
+	currentDom.innerHTML = current(data, currentIndex, unit);
+	dailyDom.innerHTML = daily(data, unit);
 
-	await getWeatherDataAndUpdateDisplay();
+	bindDynamicHandlers();
+}
+
+function showError() {
+	currentDom.innerHTML = error();
+	dailyDom.innerHTML = '';
+	console.log('No data available or failed to fetch!');
+}
+
+function showWelcome() {
+	currentDom.innerHTML = welcome();
+	dailyDom.innerHTML = '';
+	console.log('Welcome to my weather forecast app!');
+}
+
+function render() {
+	if (city === '') showWelcome();
+	else if (isLoading) showSpinner();
+	else if (data !== null) showData();
+	else showError();
+}
+
+async function loadData() {
+	if (city === '') {
+		render();
+		return;
+	}
+
+	isLoading = true;
+	render();
+
+	const result = await fetchWeatherInfo(city);
+	// ({ data, isLoading } = result);
+	data = result.data;
+	isLoading = result.isLoading;
+
+	render();
+}
+
+function initializeApp() {
+	headerDom.innerHTML = header();
 	handleSearchInput();
-};
+	loadData();
+}
+
+window.onload = initializeApp;

@@ -8,7 +8,12 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 		clean: true,
 	},
-	plugins: [new HtmlWebpackPlugin({ template: './src/template.html' })],
+	plugins: [
+		new HtmlWebpackPlugin({
+			template: './src/template.html',
+			favicon: path.resolve(__dirname, 'favicon.ico'),
+		}),
+	],
 	module: {
 		rules: [
 			{

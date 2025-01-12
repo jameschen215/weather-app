@@ -24,6 +24,10 @@
 	height: 30px;
 }
 
+.header .brand span {
+	display: none;
+}
+
 label.search {
 	position: relative;
 }
@@ -61,4 +65,10 @@ input[type='search'] {
 
 input[type='search']::placeholder {
 	color: rgba(255, 255, 255, 0.68);
+}
+
+@media (min-width: 640px) {
+	.header .brand span {
+		display: block;
+	}
 }
