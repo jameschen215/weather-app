@@ -8,7 +8,8 @@ export async function fetchWeatherInfo(city) {
 		const response = await fetch(apiEndpoint);
 
 		if (!response.ok) {
-			throw new Error('Network response was not okay.');
+			// throw new Error('Network response was not okay.');
+			console.error('Network response was not okay.');
 		}
 
 		data = await response.json();

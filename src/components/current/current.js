@@ -39,46 +39,50 @@ export function current(data, index, unit) {
       <div class="city">${city}</div>
     </div>
 
-    <div class="current-row main-info">
-      <div class="icon current-icon">
-        <img src="${weatherIcon}">
-      </div>
+      <div class="current-row main-info">
+        <div class="icon current-icon">
+          <img src="${weatherIcon}">
+        </div>
 
-      <div class="current-temp">
-        ${unit === 'metric' ? Math.round(temp) : celsiusToFahrenheit(temp)}&deg;
-      </div>
+        <div class="current-temp">
+          ${
+						unit === 'metric' ? Math.round(temp) : celsiusToFahrenheit(temp)
+					}&deg;
+        </div>
 
-      <form class="unit">
-        <input 
-          type="radio" 
-          name="unit-toggle" 
-          id="celsius" 
-          value="metric" 
-          ${unit === 'metric' ? 'checked' : ''}
-        />
-        <label for="celsius">C</label>
-        <input 
-          type="radio" 
-          name="unit-toggle" 
-          id="fahrenheit" 
-          value="us" 
-          ${unit === 'us' ? 'checked' : ''}
-        />
-        <label for="fahrenheit">F</label>
-      </form>
+        <form class="unit">
+          <input 
+            type="radio" 
+            name="unit-toggle" 
+            id="celsius" 
+            value="metric" 
+            ${unit === 'metric' ? 'checked' : ''}
+          />
+          <label for="celsius">C</label>
+          <input 
+            type="radio" 
+            name="unit-toggle" 
+            id="fahrenheit" 
+            value="us" 
+            ${unit === 'us' ? 'checked' : ''}
+          />
+          <label for="fahrenheit">F</label>
+        </form>
+      </div>
     </div>
       
-    <div class="current-row desc">
+    <div class="current-row current-desc">
       <p>${desc}</p>
     </div>
-
-    <div class="current-row">
+  
+    <div class="other-info">
       <div class="temp-max">
         <span>Max</span> 
         <span>
           ${unit === 'metric' ? tempMax : celsiusToFahrenheit(tempMax)}&deg;
         </span>
       </div>
+
       <div class="temp-min">
         <span>Min</span>  
         <span>
@@ -91,9 +95,6 @@ export function current(data, index, unit) {
           ${unit === 'metric' ? feelsLike : celsiusToFahrenheit(feelsLike)}&deg;
         </span>
       </div>
-    </div>
-
-    <div class="current-row">
       <div class="humidity">
         <span>Humidity</span> 
         <span>${humidity}%</span>
@@ -118,8 +119,7 @@ export function current(data, index, unit) {
 				}
         </span>
       </div>
-    </div>
-    <div class="current-row">
+
       <div class="uv-index">
         <span>UV Index</span> 
         <span>${uvIndex}</span>
@@ -135,6 +135,6 @@ export function current(data, index, unit) {
         <span>Pressure</span> 
         <span>${pressure}mb</span>
       </div>
-    </div>
+
   `;
 }

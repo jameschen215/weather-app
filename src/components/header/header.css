@@ -33,7 +33,7 @@ label.search {
 }
 
 input[type='search'] {
-	min-width: 240px;
+	min-width: 200px;
 }
 
 label.search .icon {

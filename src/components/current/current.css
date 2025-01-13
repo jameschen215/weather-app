@@ -1,11 +1,12 @@
 .current {
+	margin-top: 48px;
 	width: 100%;
-	flex: 7;
+	/* flex: 7; */
 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	gap: 10px;
 }
 
@@ -14,25 +15,25 @@
 	align-items: center;
 	gap: 20px;
 
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 	font-weight: 400;
 }
 
 .current-row.location {
 	gap: 4px;
-	font-size: 2rem;
+	font-size: 1.8rem;
 	font-weight: 400;
 	margin-bottom: -10px;
 }
 
 .current-row.location .location-icon {
-	width: 18px;
-	height: 18px;
+	width: 16px;
+	height: 16px;
 }
 
 .current-row.main-info .current-icon {
-	width: 80px;
-	height: 80px;
+	width: 64px;
+	height: 64px;
 }
 
 .current .current-row img {
@@ -41,12 +42,12 @@
 }
 
 .current .current-temp {
-	font-size: 8rem;
+	font-size: 6.4rem;
 	font-weight: 200;
 }
 
-.current .current-row.desc {
-	font-size: 3rem;
+.current-row.current-desc {
+	font-size: 2.4rem;
 	font-weight: 300;
 	margin-bottom: 24px;
 	margin-top: -10px;
@@ -69,7 +70,7 @@
 	align-items: center;
 	justify-content: center;
 
-	font-size: 2.4rem;
+	font-size: 2rem;
 	/* font-weight: 300; */
 	color: rgba(255, 255, 255, 0.55);
 	text-align: center;
@@ -84,7 +85,7 @@
 
 input#celsius:checked + label,
 input#fahrenheit:checked + label {
-	font-size: 4rem;
+	font-size: 2.8rem;
 	/* font-weight: 300; */
 	color: var(--white);
 }
@@ -95,6 +96,36 @@ input#fahrenheit:checked + label {
 	gap: 6px;
 }
 
-.current-row div span:last-of-type {
-	font-style: italic;
+.other-info {
+	font-size: 1.4rem;
+	/* border: 1px solid #000; */
+	/* width: 100%; */
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(5, auto);
+	gap: 4px 20px;
+}
+
+.other-info div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+}
+
+.other-info div span:first-of-type {
+	font-size: 1.4rem;
+	font-weight: 300;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.other-info .pressure {
+	grid-area: -2 / 1 / -1 / -1;
+}
+
+@media (min-width: 640px) {
+	.current {
+		flex: 7;
+	}
 }

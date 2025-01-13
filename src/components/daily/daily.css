@@ -1,14 +1,23 @@
 .daily {
-	flex: 3;
 	width: 100%;
-	padding: 0 20px;
+	padding: 0 40px;
+	margin-top: 30px;
 
 	display: flex;
-	align-items: center;
-	gap: 10px;
+	flex-direction: column;
+	align-items: start;
 }
 
-.daily > button {
+.scroll-container {
+	width: 100%;
+}
+
+.daily-title {
+	margin-bottom: 10px;
+}
+
+.scroll-container > button {
+	display: none;
 	appearance: none;
 	border: none;
 	outline: none;
@@ -22,22 +31,22 @@
 	transition: all 120ms ease-in-out;
 }
 
-.daily > button:hover {
+.scroll-container > button:hover {
 	color: var(--white);
 	background-color: rgba(0, 0, 0, 0.05);
 }
 
-.daily > button svg {
+.scroll-container > button svg {
 	width: 100%;
 	height: auto;
 	stroke-width: 1px;
 }
 
-.daily > button:disabled {
+.scroll-container > button:disabled {
 	cursor: default;
 }
 
-.daily > button:disabled:hover {
+.scroll-container > button:disabled:hover {
 	color: rgba(255, 255, 255, 0.55);
 	background-color: transparent;
 }
@@ -45,12 +54,34 @@
 .card-container {
 	height: 100%;
 	width: 100%;
-	/* border: 1px solid #000; */
 
 	display: flex;
-	overflow-x: auto;
+	flex-direction: column;
 }
 
-.card-container::-webkit-scrollbar {
-	display: none;
+@media (min-width: 640px) {
+	.daily {
+		flex: 3;
+	}
+
+	.card-container {
+		height: 100%;
+		width: 100%;
+		/* border: 1px solid #000; */
+		flex-direction: row;
+		overflow-x: auto;
+	}
+
+	.card-container::-webkit-scrollbar {
+		display: none;
+	}
+
+	.scroll-container {
+		display: flex;
+		align-items: center;
+	}
+
+	.scroll-container > button {
+		display: block;
+	}
 }
