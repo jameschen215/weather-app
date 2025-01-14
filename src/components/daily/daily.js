@@ -1,12 +1,12 @@
-import { dailyCard } from '../daily-card/daily-card';
 import './daily.css';
+import { dailyCard } from '../daily-card/daily-card';
 
 export function daily(data, unit) {
 	if (data === undefined) return '';
 
 	return `
 		<div class="daily-title">
-			<h2>Daily</div>
+			<p>Daily</p>
 		</div>
 		<div class="scroll-container">
 			<button id="prev">

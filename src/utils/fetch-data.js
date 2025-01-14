@@ -3,22 +3,22 @@ export async function fetchWeatherInfo(city) {
 
 	let data = null;
 	let isLoading = true;
+	let error = null;
 
 	try {
 		const response = await fetch(apiEndpoint);
 
 		if (!response.ok) {
-			// throw new Error('Network response was not okay.');
-			console.error('Network response was not okay.');
+			error = new Error(response.status + ': Network response was not okay.');
 		}
 
 		data = await response.json();
 		isLoading = false;
 	} catch (error) {
-		console.error('Error fetching data:', error);
 		isLoading = false;
-		data = null; // Handle error gracefully
+		data = null;
+		error = new Error('Error fetching data:', error);
 	}
 
-	return { data, isLoading };
+	return { data, isLoading, error };
 }

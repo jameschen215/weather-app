@@ -38,6 +38,7 @@ button,
 textarea,
 select {
 	font: inherit;
+	font-size: inherit;
 }
 
 /* 7. Avoid text overflows */
@@ -49,6 +50,7 @@ h4,
 h5,
 h6 {
 	overflow-wrap: break-word;
+	font-size: inherit;
 }
 
 /* 8. Improve line wrapping */

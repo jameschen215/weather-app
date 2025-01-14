@@ -1,7 +1,6 @@
 .current {
 	margin-top: 48px;
 	width: 100%;
-	/* flex: 7; */
 
 	display: flex;
 	flex-direction: column;
@@ -26,7 +25,8 @@
 	margin-bottom: -10px;
 }
 
-.current-row.location .location-icon {
+.current-row .location-icon {
+	color: rgba(255, 255, 255, 0.55);
 	width: 16px;
 	height: 16px;
 }
@@ -36,32 +36,29 @@
 	height: 64px;
 }
 
-.current .current-row img {
+.current-row img {
 	width: 100%;
 	height: auto;
 }
 
-.current .current-temp {
+.current-temp {
 	font-size: 6.4rem;
 	font-weight: 200;
 }
 
-.current-row.current-desc {
-	font-size: 2.4rem;
+.current-desc {
+	font-size: 3rem;
 	font-weight: 300;
 	margin-bottom: 24px;
 	margin-top: -10px;
 }
 
 /* Style unit toggle buttons */
-
 .current-row .unit {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	/* justify-content: center; */
-	/* align-items: center; */
 }
 
 .current-row label {
@@ -71,9 +68,8 @@
 	justify-content: center;
 
 	font-size: 2rem;
-	/* font-weight: 300; */
-	color: rgba(255, 255, 255, 0.55);
 	text-align: center;
+	color: rgba(255, 255, 255, 0.55);
 	cursor: pointer;
 
 	transition: all 120ms ease-in-out;
@@ -86,26 +82,19 @@
 input#celsius:checked + label,
 input#fahrenheit:checked + label {
 	font-size: 2.8rem;
-	/* font-weight: 300; */
 	color: var(--white);
-}
-
-.current-row div {
-	display: flex;
-	align-items: center;
-	gap: 6px;
 }
 
 .other-info {
 	font-size: 1.4rem;
-	/* border: 1px solid #000; */
-	/* width: 100%; */
+
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(5, auto);
-	gap: 4px 20px;
+	gap: 4px 0px;
 }
 
+/* info wrapper */
 .other-info div {
 	display: flex;
 	align-items: center;
@@ -117,7 +106,6 @@ input#fahrenheit:checked + label {
 	font-size: 1.4rem;
 	font-weight: 300;
 	text-transform: uppercase;
-	color: rgba(255, 255, 255, 0.75);
 }
 
 .other-info .pressure {
@@ -127,5 +115,51 @@ input#fahrenheit:checked + label {
 @media (min-width: 640px) {
 	.current {
 		flex: 7;
+		justify-content: center;
+	}
+
+	.current-row.location {
+		font-size: 2rem;
+		margin-bottom: 0;
+		margin-top: -30px;
+	}
+
+	.current-row.main-info .current-icon {
+		width: 72px;
+		height: 72px;
+	}
+
+	.current .current-temp {
+		font-size: 7.2rem;
+		font-weight: 200;
+	}
+
+	.current-row label {
+		font-size: 2.4rem;
+	}
+
+	input#celsius:checked + label,
+	input#fahrenheit:checked + label {
+		font-size: 3rem;
+	}
+
+	.current-row.current-desc {
+		font-size: 3.6rem;
+		margin-top: 0px;
+	}
+
+	.other-info {
+		font-size: 1.8rem;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(3, auto);
+		gap: 10px 0px;
+	}
+
+	.other-info div span:first-of-type {
+		font-size: 1.6rem;
+	}
+
+	.other-info .pressure {
+		grid-area: -2 / -2 / -1 / -1;
 	}
 }

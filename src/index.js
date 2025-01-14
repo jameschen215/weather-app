@@ -6,7 +6,7 @@ import { current } from './components/current/current';
 import { daily } from './components/daily/daily';
 import { spinner } from './components/spinner/spinner';
 import { fetchWeatherInfo } from './utils/fetch-data';
-import { error } from './components/error/error';
+import { errorComponent } from './components/error-component/error-component';
 import { welcome } from './components/welcome/welcome';
 
 const headerDom = document.querySelector('#header');
@@ -14,6 +14,7 @@ const currentDom = document.querySelector('#current');
 const dailyDom = document.querySelector('#daily');
 
 let data = null;
+let error = null;
 let isLoading = false;
 let currentIndex = 0;
 let scrollPosition = 0;
@@ -24,13 +25,12 @@ let unit =
 		? localStorage.getItem('unit')
 		: 'metric';
 
+// Get card width dynamically
 function getCardWidth() {
-	// Get dynamic card width
 	const firstCard = document.querySelector('.daily-card');
 	if (firstCard === undefined) return;
 
 	const cardStyles = firstCard.getBoundingClientRect();
-
 	return cardStyles.width + parseFloat(getComputedStyle(firstCard).marginLeft);
 }
 
@@ -39,10 +39,15 @@ function updateDailyButtonsAndScrollPosition() {
 	const prev = document.querySelector('#prev');
 	const next = document.querySelector('#next');
 
-	const cardWidth = getCardWidth();
 	const maxScrollLeft = cardContainer.scrollWidth - cardContainer.clientWidth;
 
-	if (cardContainer.scrollLeft < cardWidth) {
+	// scrollLeft is not an integer because of the dynamic card width,
+	//  i.e. it's not always 0, so you can not say
+	// cardContainer.scrollLeft === 0, it might be 5, 3, or 1,
+	// so set an value less than card width, say, 100 or 50,
+	// if cardContainer.scrollLeft is less than it,
+	// we can say that, the card is the last one on the left
+	if (cardContainer.scrollLeft < 100) {
 		prev.disabled = true;
 	} else {
 		prev.disabled = false;
@@ -57,6 +62,7 @@ function updateDailyButtonsAndScrollPosition() {
 	scrollPosition = cardContainer.scrollLeft;
 }
 
+// save card position
 function setCardContainerScrollPosition() {
 	const cardContainer = document.querySelector('#card-container');
 	cardContainer.scrollLeft = scrollPosition;
@@ -90,6 +96,7 @@ function handleSlideButtonClick() {
 	});
 }
 
+// once scrolled, update the state of buttons and card position
 function handleNotButtonScrolling() {
 	document
 		.querySelector('#card-container')
@@ -105,6 +112,8 @@ function handleSearchInput() {
 			localStorage.setItem('city', city);
 
 			loadData();
+			event.target.value = '';
+			event.target.blur();
 		}
 	});
 }
@@ -157,13 +166,14 @@ function showData() {
 	currentDom.innerHTML = current(data, currentIndex, unit);
 	dailyDom.innerHTML = daily(data, unit);
 
+	changeBackgroundDynamically();
 	bindDynamicHandlers();
 }
 
-function showError() {
-	currentDom.innerHTML = error();
+function showError(message) {
+	currentDom.innerHTML = errorComponent(message);
 	dailyDom.innerHTML = '';
-	console.log('No data available or failed to fetch!');
+	console.log(message);
 }
 
 function showWelcome() {
@@ -172,11 +182,20 @@ function showWelcome() {
 	console.log('Welcome to my weather forecast app!');
 }
 
+function changeBackgroundDynamically() {
+	const container = document.querySelector('#container');
+	const weather = data.currentConditions.icon;
+
+	if (weather !== undefined || weather !== null) {
+		container.className = `container ${weather}`;
+	}
+}
+
 function render() {
 	if (city === '') showWelcome();
+	else if (error !== null) showError(error.message);
 	else if (isLoading) showSpinner();
 	else if (data !== null) showData();
-	else showError();
 }
 
 async function loadData() {
@@ -189,10 +208,7 @@ async function loadData() {
 	render();
 
 	const result = await fetchWeatherInfo(city);
-	// ({ data, isLoading } = result);
-	data = result.data;
-	isLoading = result.isLoading;
-
+	({ data, isLoading, error } = result);
 	render();
 }
 
@@ -202,4 +218,8 @@ function initializeApp() {
 	loadData();
 }
 
-window.onload = initializeApp;
+// Initialize the app
+initializeApp();
+
+// Update data every half an hour
+setInterval(loadData, 1800000);
