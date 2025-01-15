@@ -28,6 +28,8 @@ body {
 	justify-content: space-between;
 
 	background-image: linear-gradient(to bottom, #0369a1, #60a5fa);
+
+	transition: background-color 500ms ease-in-out;
 }
 
 main {

@@ -5,22 +5,23 @@ import {
 	kilometersToMiles,
 } from '../../utils/utils';
 import { weatherIcons } from '../../utils/images';
+import { KMH, MPH } from '../../utils/constants';
 
 export function current(data, index, unit) {
-	if (data === undefined) return '';
+	if (!data || !data.days || !data.days[index]) return '';
 
 	const city = capitalizeFirstLetter(data.address);
 	const {
-		icon,
-		temp,
-		tempmax,
-		tempmin,
-		feelslike,
-		conditions: desc,
-		windspeed: windSpeed,
-		visibility,
-		humidity,
-		uvindex: uvIndex,
+		icon = '',
+		temp = 0,
+		tempmax = 0,
+		tempmin = 0,
+		feelslike = 0,
+		conditions: desc = '',
+		windspeed: windSpeed = 0,
+		visibility = 0,
+		humidity = 0,
+		uvindex: uvIndex = 0,
 		dew,
 		pressure,
 	} = data.days[index];
@@ -30,6 +31,14 @@ export function current(data, index, unit) {
 	const tempMin = Math.round(tempmin);
 	const feelsLike = Math.round(feelslike);
 	const dewPoint = Math.round(dew);
+
+	function formatTemp(value) {
+		return unit === 'metric' ? Math.round(value) : celsiusToFahrenheit(value);
+	}
+
+	function formatWindAndVisibility(value) {
+		return unit === 'metric' ? value + KMH : kilometersToMiles(value) + MPH;
+	}
 
 	return `
     <div class="current-row location">
@@ -45,9 +54,7 @@ export function current(data, index, unit) {
         </div>
 
         <div class="current-temp">
-          ${
-						unit === 'metric' ? Math.round(temp) : celsiusToFahrenheit(temp)
-					}&deg;
+          ${formatTemp(temp)}&deg;
         </div>
 
         <form class="unit">
@@ -79,20 +86,20 @@ export function current(data, index, unit) {
       <div class="temp-max">
         <span>Max</span> 
         <span>
-          ${unit === 'metric' ? tempMax : celsiusToFahrenheit(tempMax)}&deg;
+          ${formatTemp(tempMax)}&deg;
         </span>
       </div>
 
       <div class="temp-min">
         <span>Min</span>  
         <span>
-          ${unit === 'metric' ? tempMin : celsiusToFahrenheit(tempMin)}&deg;
+          ${formatTemp(tempMin)}&deg;
         </span>
       </div>
       <div class="temp-feel-like">
         <span>Feels Like</span>
         <span>
-          ${unit === 'metric' ? feelsLike : celsiusToFahrenheit(feelsLike)}&deg;
+          ${formatTemp(feelsLike)}&deg;
         </span>
       </div>
       <div class="humidity">
@@ -102,21 +109,13 @@ export function current(data, index, unit) {
       <div class="wind-spreed">
         <span>Wind</span>
         <span>
-          ${
-						unit === 'metric'
-							? windSpeed + 'km/h'
-							: kilometersToMiles(windSpeed) + 'mph'
-					}
+          ${formatWindAndVisibility(windSpeed)}
         </span>
       </div>
       <div class="visibility">
         <span>Visibility</span> 
         <span>
-        ${
-					unit === 'metric'
-						? visibility + 'km/h'
-						: kilometersToMiles(visibility) + 'mph'
-				}
+        ${formatWindAndVisibility(visibility)}
         </span>
       </div>
 
@@ -127,7 +126,7 @@ export function current(data, index, unit) {
       <div class="dew">
         <span>Dew Point</span>
         <span>
-          ${unit === 'metric' ? dewPoint : celsiusToFahrenheit(dewPoint)}&deg;
+          ${formatTemp(dewPoint)}&deg;
         </span>
       </div>
       

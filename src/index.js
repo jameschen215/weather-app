@@ -8,6 +8,7 @@ import { spinner } from './components/spinner/spinner';
 import { fetchWeatherInfo } from './utils/fetch-data';
 import { errorComponent } from './components/error-component/error-component';
 import { welcome } from './components/welcome/welcome';
+import { SCROLL_THRESHOLD, UPDATE_INTERVAL } from './utils/constants';
 
 const headerDom = document.querySelector('#header');
 const currentDom = document.querySelector('#current');
@@ -17,13 +18,29 @@ let data = null;
 let error = null;
 let isLoading = false;
 let currentIndex = 0;
-let scrollPosition = 0;
+// let scrollPosition = 0;
 let city =
 	localStorage.getItem('city') !== null ? localStorage.getItem('city') : '';
 let unit =
 	localStorage.getItem('unit') !== null
 		? localStorage.getItem('unit')
 		: 'metric';
+
+function setCurrentIndex(index) {
+	currentIndex = index;
+}
+
+function setScrollPosition(position) {
+	scrollPosition = position;
+}
+
+function setCity(string) {
+	city = string;
+}
+
+function setUnit(string) {
+	unit = string;
+}
 
 // Get card width dynamically
 function getCardWidth() {
@@ -41,13 +58,7 @@ function updateDailyButtonsAndScrollPosition() {
 
 	const maxScrollLeft = cardContainer.scrollWidth - cardContainer.clientWidth;
 
-	// scrollLeft is not an integer because of the dynamic card width,
-	//  i.e. it's not always 0, so you can not say
-	// cardContainer.scrollLeft === 0, it might be 5, 3, or 1,
-	// so set an value less than card width, say, 100 or 50,
-	// if cardContainer.scrollLeft is less than it,
-	// we can say that, the card is the last one on the left
-	if (cardContainer.scrollLeft < 100) {
+	if (cardContainer.scrollLeft < SCROLL_THRESHOLD) {
 		prev.disabled = true;
 	} else {
 		prev.disabled = false;
@@ -104,18 +115,21 @@ function handleNotButtonScrolling() {
 }
 
 function handleSearchInput() {
-	document.querySelector('#search').addEventListener('keydown', (event) => {
-		const location = event.target.value.trim();
+	document
+		.querySelector('#search')
+		.addEventListener('keydown', async (event) => {
+			const location = event.target.value.trim();
 
-		if (event.key === 'Enter' && location.length > 1) {
-			city = location;
-			localStorage.setItem('city', city);
+			if (event.key === 'Enter' && location.length > 1) {
+				city = location;
+				localStorage.setItem('city', city);
 
-			loadData();
-			event.target.value = '';
-			event.target.blur();
-		}
-	});
+				await loadData();
+				// render();
+				event.target.value = '';
+				event.target.blur();
+			}
+		});
 }
 
 function handleUnitToggle() {
@@ -170,10 +184,10 @@ function showData() {
 	bindDynamicHandlers();
 }
 
-function showError(message) {
-	currentDom.innerHTML = errorComponent(message);
+function showError() {
+	currentDom.innerHTML = errorComponent(error);
 	dailyDom.innerHTML = '';
-	console.log(message);
+	console.log(error.message);
 }
 
 function showWelcome() {
@@ -186,40 +200,57 @@ function changeBackgroundDynamically() {
 	const container = document.querySelector('#container');
 	const weather = data.currentConditions.icon;
 
-	if (weather !== undefined || weather !== null) {
+	if (weather !== undefined && weather !== null) {
 		container.className = `container ${weather}`;
+	} else {
+		container.className = 'container';
 	}
 }
 
 function render() {
-	if (city === '') showWelcome();
-	else if (error !== null) showError(error.message);
-	else if (isLoading) showSpinner();
+	if (isLoading) showSpinner();
+	else if (error !== null) showError();
 	else if (data !== null) showData();
 }
 
 async function loadData() {
-	if (city === '') {
+	try {
+		isLoading = true;
 		render();
-		return;
+		const result = await fetchWeatherInfo(city);
+		data = result || {};
+		error = null;
+	} catch (err) {
+		error = err;
+	} finally {
+		isLoading = false;
+		render();
 	}
-
-	isLoading = true;
-	render();
-
-	const result = await fetchWeatherInfo(city);
-	({ data, isLoading, error } = result);
-	render();
 }
 
-function initializeApp() {
+async function initializeApp() {
 	headerDom.innerHTML = header();
 	handleSearchInput();
-	loadData();
+
+	if (city === '') {
+		// If it's the first time landing, show the welcome page
+		showWelcome();
+	} else {
+		// else fetch weather data from api
+		await loadData();
+	}
 }
 
 // Initialize the app
 initializeApp();
 
-// Update data every half an hour
-setInterval(loadData, 1800000);
+// Update data every 10 minutes
+setInterval(async () => {
+	await loadData();
+}, UPDATE_INTERVAL);
+
+/* - TODO: - 
+	1. Separate event handlers into smaller modules
+ 	2. Improve error handlers for data fetching -- done
+ 	3. Avoid Redundant DOM Queries
+*/
