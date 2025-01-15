@@ -4,9 +4,9 @@ import { ERROR_MESSAGES } from '../../utils/constants';
 export function errorComponent(error) {
 	const code = parseInt(error.message);
 
-	const title = ERROR_MESSAGES[code].title || 'Unknown Error';
+	const title = ERROR_MESSAGES[code]?.title || 'Unknown Error';
 	const message =
-		ERROR_MESSAGES[error.message].message ||
+		ERROR_MESSAGES[error.message]?.message ||
 		"We're sorry, but something went wrong. We will work on fixing it soon.";
 
 	return `

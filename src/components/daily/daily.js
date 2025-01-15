@@ -2,7 +2,7 @@ import './daily.css';
 import { dailyCard } from '../daily-card/daily-card';
 
 export function daily(data, unit) {
-	if (data === undefined) return '';
+	if (data === undefined || data.days === undefined) return '';
 
 	return `
 		<div class="daily-title">

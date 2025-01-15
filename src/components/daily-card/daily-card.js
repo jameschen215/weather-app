@@ -1,6 +1,6 @@
 import './daily-card.css';
 import { format, isToday } from 'date-fns';
-import { weatherIcons } from '../../utils/images';
+import { weatherIcons } from '../../scripts/images';
 import { celsiusToFahrenheit } from '../../utils/utils';
 
 export function dailyCard(day, index, unit) {

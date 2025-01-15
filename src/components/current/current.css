@@ -135,7 +135,7 @@ input#fahrenheit:checked + label {
 	}
 
 	.current-row label {
-		font-size: 2.4rem;
+		font-size: 2rem;
 	}
 
 	input#celsius:checked + label,

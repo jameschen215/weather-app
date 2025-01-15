@@ -4,7 +4,7 @@ import {
 	celsiusToFahrenheit,
 	kilometersToMiles,
 } from '../../utils/utils';
-import { weatherIcons } from '../../utils/images';
+import { weatherIcons } from '../../scripts/images';
 import { KMH, MPH } from '../../utils/constants';
 
 export function current(data, index, unit) {
