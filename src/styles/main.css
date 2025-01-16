@@ -28,8 +28,6 @@ body {
 	justify-content: space-between;
 
 	background-image: linear-gradient(to bottom, #0369a1, #60a5fa);
-
-	transition: background-color 500ms ease-in-out;
 }
 
 main {
@@ -42,7 +40,6 @@ main {
 }
 
 footer {
-	/* height: 48px; */
 	width: 100%;
 	text-align: center;
 	margin-top: 36px;

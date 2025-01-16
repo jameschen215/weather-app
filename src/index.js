@@ -13,12 +13,10 @@ import {
 	showWelcome,
 	showData,
 	showError,
+	changeBackgroundDynamically,
 } from './scripts/display';
 
-const container = document.querySelector('#container');
 const headerDom = document.querySelector('#header');
-const currentDom = document.querySelector('#current');
-const dailyDom = document.querySelector('#daily');
 
 let data = null;
 let error = null;
@@ -43,28 +41,17 @@ function setCurrentIndex(index) {
 	currentIndex = index;
 }
 
-function changeBackgroundDynamically() {
-	const weather = data?.currentConditions?.icon;
-	console.log(weather);
-
-	if (weather !== undefined) {
-		container.className = `container ${weather}`;
-	} else {
-		container.className = 'container';
-	}
-}
-
 function render() {
 	if (isLoading) {
-		showSpinner(currentDom, dailyDom);
+		showSpinner();
 	} else if (error !== null) {
-		showError(currentDom, dailyDom, error);
+		showError(error);
 	} else if (data !== null) {
-		showData(currentDom, dailyDom, data, currentIndex, unit);
+		showData(data, currentIndex, unit);
 		bindDynamicHandlers(setUnit, setCurrentIndex, render);
 	}
 
-	changeBackgroundDynamically();
+	changeBackgroundDynamically(data, currentIndex);
 }
 
 async function loadData() {
@@ -90,7 +77,7 @@ async function initializeApp() {
 
 	if (city === '') {
 		// If it's the first time landing, show the welcome page
-		showWelcome(currentDom, dailyDom);
+		showWelcome();
 	} else {
 		// else fetch weather data from api
 		await loadData();

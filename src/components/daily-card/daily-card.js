@@ -1,27 +1,35 @@
 import './daily-card.css';
 import { format, isToday } from 'date-fns';
 import { weatherIcons } from '../../scripts/images';
-import { celsiusToFahrenheit } from '../../utils/utils';
+import { formatTemp } from '../../utils/utils';
 
-export function dailyCard(day, index, unit) {
-	const { datetime, icon, tempmax, tempmin, conditions: desc } = day;
-	const tempMax = Math.round(tempmax);
+export function dailyCard(data, day, index, currentIndex, unit) {
+	const { datetime, icon, tempmax, tempmin, conditions } = day;
 	const tempMin = Math.round(tempmin);
+	const tempMax = Math.round(tempmax);
 
 	const date = new Date(datetime);
-	const weatherIcon = weatherIcons[icon];
 
-	const cardDateContent = isToday(date)
-		? `<span class="weekday">Today</span>`
-		: `
-      <span class="weekday">${format(date, 'E')}</span>
-      <span class="day">${format(date, 'd')}</span>
-      `;
+	let weatherIcon = weatherIcons[icon];
+	let desc = conditions;
+
+	if (isToday(date)) {
+		weatherIcon = weatherIcons[data.currentConditions.icon];
+		desc = data.currentConditions.conditions;
+	}
 
 	return `
-    <button class="daily-card" data-index="${index}">
-      <div class="card-row card-date">
-        ${cardDateContent}
+    <button 
+      class="daily-card ${index === currentIndex ? 'selected' : ''}" 
+      data-index="${index}"
+    >
+      <div class="card-row card-date>
+        <span class="weekday">
+          ${isToday(date) ? 'Today' : format(date, 'E')}
+        </span>
+        <span class="day ${isToday(date) ? 'hidden' : ''}">
+          ${format(date, 'd')}
+        </span>
       </div>
 
       <div class="card-row card-icon">
@@ -32,10 +40,10 @@ export function dailyCard(day, index, unit) {
 
       <div class="card-row card-temp">
         <div class="card-temp-max">
-          ${unit === 'metric' ? tempMax : celsiusToFahrenheit(tempMax)}&deg;
+          ${formatTemp(tempMax, unit)}&deg;
         </div>
         <div class="card-temp-min">
-          ${unit === 'metric' ? tempMin : celsiusToFahrenheit(tempMin)}&deg;
+          ${formatTemp(tempMin, unit)}&deg;
         </div>
       </div>
 

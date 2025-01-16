@@ -24,9 +24,16 @@
 	background-color: rgba(255, 255, 255, 0.075);
 }
 
+.card-row:first-of-type {
+	border-bottom: 2px solid transparent;
+}
+
+.daily-card.selected .card-row:first-of-type {
+	animation: borderColor 120ms ease-in-out forwards;
+}
 .card-row {
 	display: flex;
-	align-items: center;
+	align-items: flex-end;
 }
 
 .card-date {
@@ -61,6 +68,15 @@
 
 .card-temp-min {
 	color: rgba(255, 255, 255, 0.75);
+}
+
+@keyframes borderColor {
+	from {
+		border-color: transparent;
+	}
+	to {
+		border-color: var(--white);
+	}
 }
 
 @media (min-width: 640px) {
@@ -109,6 +125,10 @@
 		display: block;
 		flex: 1;
 	}
+}
+
+.hidden {
+	display: none;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {

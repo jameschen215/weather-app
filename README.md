@@ -23,3 +23,9 @@ You should change the look of the page based on the data, maybe by changing the 
 7. Optional: add a ‘loading’ component that displays from the time the form is submitted until the information comes back from the API. Use DevTools to simulate network speeds.
 
 8. Push that baby to github and share your solution below!
+
+## TODO:
+
+1. Ensure that today's daily card information is coherent with current information.
+
+2. Change the background color when the daily card is clicked.

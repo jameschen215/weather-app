@@ -71,17 +71,8 @@ function handleNotButtonScrolling(cardContainer) {
 }
 
 function handleCardClick(setCurrentIndex, render) {
-	function unselectAllCards() {
-		document
-			.querySelectorAll('.daily-card')
-			.forEach((card) => card.classList.remove('selected'));
-	}
-
 	document.querySelectorAll('.daily-card').forEach((card) => {
 		card.addEventListener('click', async (event) => {
-			unselectAllCards();
-			card.classList.add('selected');
-
 			const index = parseInt(event.currentTarget.dataset.index);
 			setCurrentIndex(index);
 

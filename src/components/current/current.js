@@ -1,21 +1,20 @@
 import './current.css';
+
 import {
 	capitalizeFirstLetter,
-	celsiusToFahrenheit,
-	kilometersToMiles,
+	formatTemp,
+	formatWindAndVisibility,
 } from '../../utils/utils';
 import { weatherIcons } from '../../scripts/images';
-import { KMH, MPH } from '../../utils/constants';
 
 export function current(data, index, unit) {
 	if (!data || !data.days || !data.days[index]) return '';
 
 	const city = capitalizeFirstLetter(data.address);
+	const { tempmax = 0, tempmin = 0 } = data.days[index];
 	const {
 		icon = '',
 		temp = 0,
-		tempmax = 0,
-		tempmin = 0,
 		feelslike = 0,
 		conditions: desc = '',
 		windspeed: windSpeed = 0,
@@ -24,21 +23,13 @@ export function current(data, index, unit) {
 		uvindex: uvIndex = 0,
 		dew,
 		pressure,
-	} = data.days[index];
+	} = data.currentConditions;
 
 	const weatherIcon = weatherIcons[icon];
 	const tempMax = Math.round(tempmax);
 	const tempMin = Math.round(tempmin);
 	const feelsLike = Math.round(feelslike);
 	const dewPoint = Math.round(dew);
-
-	function formatTemp(value) {
-		return unit === 'metric' ? Math.round(value) : celsiusToFahrenheit(value);
-	}
-
-	function formatWindAndVisibility(value) {
-		return unit === 'metric' ? value + KMH : kilometersToMiles(value) + MPH;
-	}
 
 	return `
     <div class="current-row location">
@@ -54,7 +45,7 @@ export function current(data, index, unit) {
         </div>
 
         <div class="current-temp">
-          ${formatTemp(temp)}&deg;
+          ${formatTemp(temp, unit)}&deg;
         </div>
 
         <form class="unit">
@@ -86,20 +77,20 @@ export function current(data, index, unit) {
       <div class="temp-max">
         <span>Max</span> 
         <span>
-          ${formatTemp(tempMax)}&deg;
+          ${formatTemp(tempMax, unit)}&deg;
         </span>
       </div>
 
       <div class="temp-min">
         <span>Min</span>  
         <span>
-          ${formatTemp(tempMin)}&deg;
+          ${formatTemp(tempMin, unit)}&deg;
         </span>
       </div>
       <div class="temp-feel-like">
         <span>Feels Like</span>
         <span>
-          ${formatTemp(feelsLike)}&deg;
+          ${formatTemp(feelsLike, unit)}&deg;
         </span>
       </div>
       <div class="humidity">
@@ -109,13 +100,13 @@ export function current(data, index, unit) {
       <div class="wind-spreed">
         <span>Wind</span>
         <span>
-          ${formatWindAndVisibility(windSpeed)}
+          ${formatWindAndVisibility(windSpeed, unit)}
         </span>
       </div>
       <div class="visibility">
         <span>Visibility</span> 
         <span>
-        ${formatWindAndVisibility(visibility)}
+        ${formatWindAndVisibility(visibility, unit)}
         </span>
       </div>
 
@@ -126,7 +117,7 @@ export function current(data, index, unit) {
       <div class="dew">
         <span>Dew Point</span>
         <span>
-          ${formatTemp(dewPoint)}&deg;
+          ${formatTemp(dewPoint, unit)}&deg;
         </span>
       </div>
       
