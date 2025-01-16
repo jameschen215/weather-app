@@ -70,17 +70,6 @@ function handleNotButtonScrolling(cardContainer) {
 	});
 }
 
-function handleCardClick(setCurrentIndex, render) {
-	document.querySelectorAll('.daily-card').forEach((card) => {
-		card.addEventListener('click', async (event) => {
-			const index = parseInt(event.currentTarget.dataset.index);
-			setCurrentIndex(index);
-
-			render();
-		});
-	});
-}
-
 export function handleSearchInput(setCity, loadData) {
 	document
 		.querySelector('#search')
@@ -115,7 +104,6 @@ export function bindDynamicHandlers(setUnit, setCurrentIndex, render) {
 	const next = document.querySelector('#next');
 
 	handleUnitToggle(setUnit, render);
-	handleCardClick(setCurrentIndex, render);
 	setCardContainerScrollPosition(cardContainer);
 	handleSlideButtonClick(cardContainer, prev, next);
 	handleNotButtonScrolling(cardContainer);

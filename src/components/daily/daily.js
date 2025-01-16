@@ -1,7 +1,7 @@
 import './daily.css';
 import { dailyCard } from '../daily-card/daily-card';
 
-export function daily(data, currentIndex, unit) {
+export function daily(data, unit) {
 	if (data === undefined || data.days === undefined) return '';
 
 	return `
@@ -14,9 +14,7 @@ export function daily(data, currentIndex, unit) {
 			</button>
 
 			<div id="card-container" class="card-container">
-				${data.days
-					.map((day, index) => dailyCard(data, day, index, currentIndex, unit))
-					.join('')}
+				${data.days.map((day, index) => dailyCard(data, day, index, unit)).join('')}
 			</div>
 
 			<button id="next">

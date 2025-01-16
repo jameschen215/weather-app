@@ -17,7 +17,7 @@ export function showSpinner() {
 
 export function showData(data, currentIndex, unit) {
 	currentDom.innerHTML = current(data, currentIndex, unit);
-	dailyDom.innerHTML = daily(data, currentIndex, unit);
+	dailyDom.innerHTML = daily(data, unit);
 }
 
 export function showError(error) {

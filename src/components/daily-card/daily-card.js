@@ -3,7 +3,7 @@ import { format, isToday } from 'date-fns';
 import { weatherIcons } from '../../scripts/images';
 import { formatTemp } from '../../utils/utils';
 
-export function dailyCard(data, day, index, currentIndex, unit) {
+export function dailyCard(data, day, index, unit) {
 	const { datetime, icon, tempmax, tempmin, conditions } = day;
 	const tempMin = Math.round(tempmin);
 	const tempMax = Math.round(tempmax);
@@ -19,8 +19,8 @@ export function dailyCard(data, day, index, currentIndex, unit) {
 	}
 
 	return `
-    <button 
-      class="daily-card ${index === currentIndex ? 'selected' : ''}" 
+    <div 
+      class="daily-card" 
       data-index="${index}"
     >
       <div class="card-row card-date>
@@ -50,6 +50,6 @@ export function dailyCard(data, day, index, currentIndex, unit) {
       <div class="card-row card-desc">
         <p>${desc}</p>
       </div>
-    </button>
+    </div>
   `;
 }

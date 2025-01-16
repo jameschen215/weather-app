@@ -7,7 +7,7 @@
 	outline: none;
 	border: none;
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
-	cursor: pointer;
+	cursor: default;
 	width: 100%;
 	padding: 8px 0px;
 
@@ -20,20 +20,13 @@
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.daily-card:hover {
-	background-color: rgba(255, 255, 255, 0.075);
+.daily-card:active {
+	background-color: transparent;
 }
 
-.card-row:first-of-type {
-	border-bottom: 2px solid transparent;
-}
-
-.daily-card.selected .card-row:first-of-type {
-	animation: borderColor 120ms ease-in-out forwards;
-}
 .card-row {
 	display: flex;
-	align-items: flex-end;
+	align-items: center;
 }
 
 .card-date {
@@ -70,15 +63,6 @@
 	color: rgba(255, 255, 255, 0.75);
 }
 
-@keyframes borderColor {
-	from {
-		border-color: transparent;
-	}
-	to {
-		border-color: var(--white);
-	}
-}
-
 @media (min-width: 640px) {
 	.daily-card {
 		flex: 1 0 auto;
@@ -91,6 +75,10 @@
 		padding: 20px;
 		border-radius: 8px;
 		border: none;
+	}
+
+	.daily-card:hover {
+		background-color: rgba(255, 255, 255, 0.075);
 	}
 
 	.card-row {
