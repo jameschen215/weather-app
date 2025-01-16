@@ -5,6 +5,7 @@ import { welcome } from '../components/welcome/welcome';
 import { errorComponent } from '../components/error-component/error-component';
 
 const container = document.querySelector('#container');
+// const main = document.querySelector('#main');
 const currentDom = document.querySelector('#current');
 const dailyDom = document.querySelector('#daily');
 

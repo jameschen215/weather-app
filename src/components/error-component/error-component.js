@@ -10,7 +10,9 @@ export function errorComponent(error) {
 		"We're sorry, but something went wrong. We will work on fixing it soon.";
 
 	return `
-    <h1 class="error-title">${title}</h1>
-    <p class="error-message">${message}</p>
+		<div class="error-container">
+			<h1 class="error-title">${title}</h1>
+			<p class="error-message">${message}</p>
+		</div>
   `;
 }
