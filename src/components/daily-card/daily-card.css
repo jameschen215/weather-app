@@ -27,14 +27,8 @@
 .card-row {
 	display: flex;
 	align-items: center;
-}
-
-.card-date {
-	width: 56px;
-}
-
-.card-date .day {
-	display: none;
+	gap: 10px;
+	width: 64px;
 }
 
 .card-icon {
